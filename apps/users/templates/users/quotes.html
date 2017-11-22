@@ -11,7 +11,7 @@
     <h3>Contribute a Quote:</h3>
     <form action="/new" method="post">
     {% csrf_token %}
-        <p>Message: <textarea name="quote" cols="30" rows="5"></textarea></p>
+        <p>Message: <textarea name="quote" cols="100" rows="5"></textarea></p>
         <input type="submit" value="Submit">
     </form>
     <br>
