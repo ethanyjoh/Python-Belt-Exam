@@ -47,9 +47,17 @@ class UserManager(models.Manager):
 
 class QuoteManager(models.Manager):
     def add_quote(self, datafromhtml, user_id):
-        user = User.objects.get(id=user_id)
-        new_quote = Quote.objects.create(quote=datafromhtml['quote'], user=user)
-        return {'new_quote': new_quote}
+        errors = []
+
+        if(len(datafromhtml['quote']) < 10):
+            errors.append("Quote should be at least 10 characters")
+
+        if errors:
+            return {'err_messages': errors}
+        else:
+            user = User.objects.get(id=user_id)
+            new_quote = Quote.objects.create(quote=datafromhtml['quote'], user=user)
+            return {'new_quote': new_quote}
 
 
 class User(models.Model):

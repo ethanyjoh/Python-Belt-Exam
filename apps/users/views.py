@@ -53,8 +53,13 @@ def quotes(request):
 
 
 def new(request):
-    Quote.objects.add_quote(request.POST, request.session['user_id'])
-    return redirect('/quotes')
+    result = Quote.objects.add_quote(request.POST, request.session['user_id'])
+    if 'err_messages' in result:
+        for error in result['err_messages']:
+            messages.error(request, error)
+        return redirect('/quotes')
+    else:
+        return redirect('/quotes')
 
 
 def show_user(request, user_id):

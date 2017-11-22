@@ -3,12 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Home Page</title>
+    <style>
+        .error{
+            color: red;
+        }
+        .success{
+            color: green;
+        }
+    </style>
 </head>
 <body>
     <h3>Welcome, {{user.name}}!</h3>
     <a href="/logout">Logout</a>
 
     <h3>Contribute a Quote:</h3>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %} 
     <form action="/new" method="post">
     {% csrf_token %}
         <p>Message: <textarea name="quote" cols="100" rows="5"></textarea></p>
