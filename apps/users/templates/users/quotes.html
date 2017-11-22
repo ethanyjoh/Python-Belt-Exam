@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+</head>
+<body>
+    <h3>Welcome, {{user.name}}!</h3>
+    <a href="/logout">Logout</a>
+
+    <h3>Contribute a Quote:</h3>
+    <form action="/new" method="post">
+    {% csrf_token %}
+        <p>Message: <textarea name="quote" cols="30" rows="5"></textarea></p>
+        <input type="submit" value="Submit">
+    </form>
+    <br>
+
+    <h3>Quotable Quotes</h3>
+    {% for quote in quotes %}
+        <p>{{quote.quote}}</p>
+        <p>Posted by <a href="/users/{{quote.user.id}}">{{quote.user.name}}</a></p>
+        <form action="/favorite/{{quote.id}}" method="post">
+        {% csrf_token %}
+            <input type="submit" value="Add to My List">
+        </form>
+    {% endfor%}
+    <br>
+
+    <h3>Your Favorites</h3>
+    {% for quote in favorites_qs %}
+        <p>{{quote.qoute.quote}}</p>
+        <p>Posted by <a href="/users/{{quote.qoute.user.id}}">{{quote.qoute.user.name}}</a></p>
+        <form action="/remove/{{quote.qoute.id}}" method="post">
+        {% csrf_token %}
+            <input type="submit" value="Remove from My List">
+        </form>
+    {% endfor%}
+    <br>
+    <br>
+</body>
+</html>
